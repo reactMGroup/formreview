@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
+import InputSelectControlled from './input-select-controlled';
 import InputTextControlled from './input-text';
+import TextArea from './input-text-area';
 
 const iName = 'txtName';
 const inOccupation = 'occupation';
-const iFreeText = 'occupation';
+const iFreeText = 'freetext';
+
+const occupationValues = [
+    { dev: 'Developer' },
+    { des: 'Designer' },
+    { prd: 'Product' },
+]
 
 class FormBasic extends Component {
     constructor(props) {
@@ -15,22 +23,34 @@ class FormBasic extends Component {
             [iFreeText]: '',
         };
         this.fieldChanged = this.fieldChanged.bind(this);
+        this.submitForm = this.submitForm.bind(this);
     }
 
-    fieldChanged(event, fieldID) {
-        this.setState({ [fieldID]: event.target.value });
-        this.showStateiInConsole();
+    fieldChanged(newValue, fieldID) {
+        console.log(`new value ${newValue}`);
+        this.setState({ [fieldID]: newValue },
+            this.showStateiInConsole()
+        );
+    }
+
+    submitForm(event) {
+        event.preventDefault();
     }
 
     render() {
-        return (<form>
+        return (<form onSubmit={this.submitForm}>
             <h3>Survey</h3>
             <label htmlFor={iName}>Name</label>
             <InputTextControlled fieldChanged={this.fieldChanged} fieldID={iName} placeholder='Name' />
+            <br />
             <label htmlFor={inOccupation}>Occupation</label>
-            <select id={inOccupation} ><option>sdasdas</option></select>
-            <label htmlFor={iFreeText}>Review of W3Schools:</label>
-            <textarea id={iFreeText} name={iFreeText} rows="4" cols="50"></textarea>        </form>)
+            <InputSelectControlled fieldChanged={this.fieldChanged} fieldID={inOccupation} options={occupationValues} />
+            <br />
+            <label htmlFor={iFreeText}>Free text:</label>
+            <TextArea fieldChanged={this.fieldChanged} fieldID={iFreeText}/>
+            <br />
+            <input type='submit' value='Submit' />
+        </form>)
     }
 
     showStateiInConsole() {
