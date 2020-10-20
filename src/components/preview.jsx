@@ -9,7 +9,7 @@ class Preview extends Component {
                 <ul>
                     {
                         this.props.data
-                            .map(entry => (<p>{entry}</p>))
+                            .map((entry,index) => (<p key={index}>{entry}</p>))
                     }
                 </ul>
                 <input onClick={() => this.props.processNext('form')} type="button" value='Back to the From' />

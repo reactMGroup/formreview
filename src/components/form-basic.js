@@ -19,10 +19,10 @@ class FormBasic extends Component {
         super(props);
 
         this.state = {
-            [iName]: '',
-            [iSurName]: '',
-            [inOccupation]: '',
-            [iFreeText]: '',
+            [iName]: localStorage.getItem(iName),
+            [iSurName]: localStorage.getItem(iSurName),
+            [inOccupation]: localStorage.getItem(inOccupation),
+            [iFreeText]: localStorage.getItem(iFreeText),
         };
         this.fieldChanged = this.fieldChanged.bind(this);
         this.submitForm = this.submitForm.bind(this);
@@ -30,6 +30,7 @@ class FormBasic extends Component {
 
     fieldChanged(newValue, fieldID) {
         console.log(`new value ${newValue}`);
+        localStorage.setItem([fieldID], newValue);
         this.setState({ [fieldID]: newValue },
             this.showStateiInConsole()
         );
@@ -46,16 +47,12 @@ class FormBasic extends Component {
 
     render() {
         return (<form onSubmit={this.submitForm}>
-            <label htmlFor={iName}>Name</label>
-            <InputTextControlled fieldChanged={this.fieldChanged} fieldID={iName} placeholder='Name' />
-            <label htmlFor={iName}>Surname</label>
-            <InputTextControlled fieldChanged={this.fieldChanged} fieldID={iSurName} placeholder='Surname' />
+            <InputTextControlled fieldChanged={this.fieldChanged} fieldID={iName} placeholder='Name' value={this.state[iName]}/>
+            <InputTextControlled fieldChanged={this.fieldChanged} fieldID={iSurName} placeholder='Surname'  value={this.state[iSurName]}/>
             <br />
-            <label htmlFor={inOccupation}>Occupation</label>
-            <InputSelectControlled fieldChanged={this.fieldChanged} fieldID={inOccupation} options={occupationValues} />
+            <InputSelectControlled fieldChanged={this.fieldChanged} fieldID={inOccupation} options={occupationValues}  value={this.state[inOccupation]}/>
             <br />
-            <label htmlFor={iFreeText}>Free text:</label>
-            <TextArea fieldChanged={this.fieldChanged} fieldID={iFreeText} />
+            <TextArea fieldChanged={this.fieldChanged} label='Free text' fieldID={iFreeText}  value={this.state[iFreeText]}/>
             <br />
             <input type='submit' value='Next' />
         </form>)
