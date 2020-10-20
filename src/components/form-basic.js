@@ -4,13 +4,14 @@ import InputTextControlled from './input-text';
 import TextArea from './input-text-area';
 
 const iName = 'txtName';
+const iSurName = 'txtSurName';
 const inOccupation = 'occupation';
 const iFreeText = 'freetext';
 
 const occupationValues = [
-    { dev: 'Developer' },
-    { des: 'Designer' },
-    { prd: 'Product' },
+    'Developer',
+    'Designer',
+    'Product',
 ]
 
 class FormBasic extends Component {
@@ -19,6 +20,7 @@ class FormBasic extends Component {
 
         this.state = {
             [iName]: '',
+            [iSurName]: '',
             [inOccupation]: '',
             [iFreeText]: '',
         };
@@ -35,21 +37,27 @@ class FormBasic extends Component {
 
     submitForm(event) {
         event.preventDefault();
+        const preview = [`Name ${this.state[iName]} ${this.state[iSurName]}`,
+        `Occupation ${this.state[inOccupation]}`,
+        `Free text ${this.state[iFreeText]}`];
+        this.props.setPreview(preview);
+        this.props.processNext('preview');
     }
 
     render() {
         return (<form onSubmit={this.submitForm}>
-            <h3>Survey</h3>
             <label htmlFor={iName}>Name</label>
             <InputTextControlled fieldChanged={this.fieldChanged} fieldID={iName} placeholder='Name' />
+            <label htmlFor={iName}>Surname</label>
+            <InputTextControlled fieldChanged={this.fieldChanged} fieldID={iSurName} placeholder='Surname' />
             <br />
             <label htmlFor={inOccupation}>Occupation</label>
             <InputSelectControlled fieldChanged={this.fieldChanged} fieldID={inOccupation} options={occupationValues} />
             <br />
             <label htmlFor={iFreeText}>Free text:</label>
-            <TextArea fieldChanged={this.fieldChanged} fieldID={iFreeText}/>
+            <TextArea fieldChanged={this.fieldChanged} fieldID={iFreeText} />
             <br />
-            <input type='submit' value='Submit' />
+            <input type='submit' value='Next' />
         </form>)
     }
 

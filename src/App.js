@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import FormBasic from './components/form-basic';
+import SurveyApp from './components/survey-app';
 
 function App() {
   return (
     <section className="App">
-      <FormBasic />
+      <SurveyApp />
     </section>
   );
 }
