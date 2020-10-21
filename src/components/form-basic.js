@@ -8,6 +8,9 @@ const iName = 'txtName';
 const iSurName = 'txtSurName';
 const inOccupation = 'occupation';
 const iFreeText = 'freetext';
+const iTaC = 'trmsacnd';
+const iSlsAgree = 'salesAgree';
+
 
 const occupationValues = [
     'Developer',
@@ -15,15 +18,28 @@ const occupationValues = [
     'Product',
 ]
 
+const getLocalData = function (fieldID, defaultValue) {
+    const storageValue = localStorage.getItem(fieldID);
+    if (storageValue) {
+        return storageValue;
+    }
+    if (defaultValue !== undefined) {
+        return defaultValue;
+    }
+    return '';
+}
+
 class FormBasic extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            [iName]: localStorage.getItem(iName),
-            [iSurName]: localStorage.getItem(iSurName),
-            [inOccupation]: localStorage.getItem(inOccupation),
-            [iFreeText]: localStorage.getItem(iFreeText),
+            [iName]: getLocalData(iName),
+            [iSurName]: getLocalData(iSurName),
+            [inOccupation]: getLocalData(inOccupation),
+            [iFreeText]: getLocalData(iFreeText),
+            [iTaC]: getLocalData(iTaC, 'false') === 'true',
+            [iSlsAgree]: getLocalData(iSlsAgree, 'true') === 'true',
         };
         this.fieldChanged = this.fieldChanged.bind(this);
         this.submitForm = this.submitForm.bind(this);
@@ -41,7 +57,9 @@ class FormBasic extends Component {
         event.preventDefault();
         const preview = [`Name ${this.state[iName]} ${this.state[iSurName]}`,
         `Occupation ${this.state[inOccupation]}`,
-        `Free text ${this.state[iFreeText]}`];
+        `Free text ${this.state[iFreeText]}`,
+        `Agree to Terms and Conditions ${this.state[iTaC]}`,
+        `Get subscription ${this.state[iSlsAgree]}`];
         this.props.setPreview(preview);
         this.props.processNext('preview');
     }
@@ -56,9 +74,9 @@ class FormBasic extends Component {
             <TextArea fieldChanged={this.fieldChanged} label='Free text' fieldID={iFreeText} value={this.state[iFreeText]} />
             <br />
             <br />
-            <CheckBox caption="I agree to terms and conditons." checked={false} />
+            <CheckBox whenClicked={this.fieldChanged} fieldID={iTaC} value={this.state[iTaC]} caption="I agree to terms and conditons." />
             <br />
-            <CheckBox caption="I want to receive sales materials." />
+            <CheckBox whenClicked={this.fieldChanged} fieldID={iSlsAgree} value={this.state[iSlsAgree]} caption="I want to receive sales materials." />
             <br />
             <input type='submit' value='Next' />
         </form>)

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class CheckBox extends Component {
     static defaultProps = {
         caption: "define caption",
-        checked: true,
+        value: true,
         whenClicked: function (value) {
             console.log(`New value ${value}`);
         }
@@ -12,20 +12,15 @@ class CheckBox extends Component {
     constructor(props) {
         super(props);
         this.whenClicked = this.whenClicked.bind(this);
-        this.state = { checked: this.props.checked };
     }
 
-    whenClicked() {
-        this.setState(previous => ({ checked: !previous.checked }),
-            () => {
-                this.props.whenClicked(this.state.checked);
-            });
-
+    whenClicked(value) {
+        this.props.whenClicked(!value, this.props.fieldID);
     }
 
     render() {
         return (<label>
-            <input type='checkbox' onInput={e => this.whenClicked(e)} checked={this.state.checked} />{this.props.caption}
+            <input type='checkbox' onInput={e => this.whenClicked(e.target.checked)} checked={this.props.value} />{this.props.caption}
         </label>);
     }
 }
