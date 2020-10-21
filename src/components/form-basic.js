@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import CheckBox from './checkbox';
 import InputSelectControlled from './input-select-controlled';
 import InputTextControlled from './input-text';
 import TextArea from './input-text-area';
@@ -47,12 +48,17 @@ class FormBasic extends Component {
 
     render() {
         return (<form onSubmit={this.submitForm}>
-            <InputTextControlled fieldChanged={this.fieldChanged} fieldID={iName} placeholder='Name' value={this.state[iName]}/>
-            <InputTextControlled fieldChanged={this.fieldChanged} fieldID={iSurName} placeholder='Surname'  value={this.state[iSurName]}/>
+            <InputTextControlled fieldChanged={this.fieldChanged} fieldID={iName} placeholder='Name' value={this.state[iName]} />
+            <InputTextControlled fieldChanged={this.fieldChanged} fieldID={iSurName} placeholder='Surname' value={this.state[iSurName]} />
             <br />
-            <InputSelectControlled fieldChanged={this.fieldChanged} fieldID={inOccupation} options={occupationValues}  value={this.state[inOccupation]}/>
+            <InputSelectControlled fieldChanged={this.fieldChanged} fieldID={inOccupation} options={occupationValues} value={this.state[inOccupation]} />
             <br />
-            <TextArea fieldChanged={this.fieldChanged} label='Free text' fieldID={iFreeText}  value={this.state[iFreeText]}/>
+            <TextArea fieldChanged={this.fieldChanged} label='Free text' fieldID={iFreeText} value={this.state[iFreeText]} />
+            <br />
+            <br />
+            <CheckBox caption="I agree to terms and conditons." checked={false} />
+            <br />
+            <CheckBox caption="I want to receive sales materials." />
             <br />
             <input type='submit' value='Next' />
         </form>)
